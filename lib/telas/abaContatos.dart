@@ -1,4 +1,5 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:whatsapp_app/model/Conversas.dart';
 import 'package:whatsapp_app/model/Usuario.dart';
@@ -12,6 +13,11 @@ class _abaContatosState extends State<abaContatos> {
 
 
   Future<List<Usuario>> _recuperarContatos() async{
+
+    FirebaseAuth auth = FirebaseAuth.instance;
+    FirebaseUser user = await auth.currentUser();
+
+
     Firestore db = Firestore.instance;
     QuerySnapshot querySnapshot = await db.collection("usuarios").getDocuments();
     List<Usuario> listUsuario = new List();
@@ -20,15 +26,16 @@ class _abaContatosState extends State<abaContatos> {
 
       var dados = item.data;
 
-      Usuario usuario = new Usuario();
+      if(dados["email"] != user.email) {
+        Usuario usuario = new Usuario();
 
-      usuario.email = dados["email"];
-      usuario.nome = dados["nome"];
-      usuario.urlImagem = dados["urlImagem"];
-      usuario.idUsuario = item.documentID;
+        usuario.email = dados["email"];
+        usuario.nome = dados["nome"];
+        usuario.urlImagem = dados["urlImagem"];
+        usuario.idUsuario = item.documentID;
 
-      listUsuario.add(usuario);
-
+        listUsuario.add(usuario);
+      }
     }
 
     return listUsuario;
@@ -47,7 +54,7 @@ class _abaContatosState extends State<abaContatos> {
                 return Center(
                   child: Column(
                     children: <Widget>[
-                      Text("Carregando Contatos"),
+                      Text("Carregando Conversas"),
                       CircularProgressIndicator()
 
                     ],
@@ -87,6 +94,7 @@ class _abaContatosState extends State<abaContatos> {
                           fontSize: 16
                       ),
                     ),
+
                   );
 
                 }

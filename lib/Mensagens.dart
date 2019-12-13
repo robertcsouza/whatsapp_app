@@ -47,7 +47,8 @@ class _MensagensState extends State<Mensagens> {
 
       //Salvar mensagem para remetente
       _salvarMensagem(_idUsuarioLogado, _idUsuarioDestinatario, mensagem);
-
+      _salvarMensagemUsuario(_idUsuarioLogado, mensagem,_idUsuarioDestinatario);
+      _salvarMensagemUsuario(_idUsuarioDestinatario,mensagem,_idUsuarioLogado);
       //Salvar mensagem para o destinatário
       _salvarMensagem(_idUsuarioDestinatario, _idUsuarioLogado, mensagem);
 
@@ -71,6 +72,15 @@ class _MensagensState extends State<Mensagens> {
 
     //Limpa texto
     _controllerMensagem.clear();
+
+  }
+
+  _salvarMensagemUsuario(String idRemetente, Mensagem msg, String idDestinatario) async{
+
+    await db
+        .collection("usuarios")
+        .document(idRemetente)
+        .updateData(msg.toMapUsuario(idDestinatario));
 
   }
 
@@ -125,6 +135,7 @@ class _MensagensState extends State<Mensagens> {
 
     //Salvar mensagem para remetente
     _salvarMensagem(_idUsuarioLogado, _idUsuarioDestinatario, mensagem);
+
 
     //Salvar mensagem para o destinatário
     _salvarMensagem(_idUsuarioDestinatario, _idUsuarioLogado, mensagem);

@@ -4,9 +4,16 @@ class Usuario{
   String _email;
   String _senha;
   String _urlImagem;
+  String _ultimaMensagem;
 
   Usuario();
 
+
+  String get ultimaMensagem => _ultimaMensagem;
+
+  set ultimaMensagem(String value) {
+    _ultimaMensagem = value;
+  }
 
   String get idUsuario => _idUsuario;
 

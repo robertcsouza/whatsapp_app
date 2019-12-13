@@ -1,3 +1,4 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 
@@ -26,6 +27,7 @@ class _CadastroState extends State<Cadastro> {
                 .createUserWithEmailAndPassword(email: usuario.email, password: usuario.senha)
                 .then((FirebaseUser){
                   setState(() {
+                    _salvarDados(usuario.nome);
                     _mensagem = "Sucesso ao cadastrar !!!";
                   });
     }).catchError((error){
@@ -35,6 +37,21 @@ class _CadastroState extends State<Cadastro> {
     });
 
   }
+
+  _salvarDados(String nome) async{
+
+    Firestore db = Firestore.instance;
+    FirebaseAuth auth = FirebaseAuth.instance;
+
+    FirebaseUser user = await auth.currentUser();
+
+    await db
+        .collection("usuarios")
+        .document(user.uid)
+        .setData({"email":user.email,"nome":nome,"urlImagem":""});
+
+  }
+
 
 
   @override

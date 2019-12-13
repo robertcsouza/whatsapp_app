@@ -80,7 +80,7 @@ class _LoginState extends State<Login> {
                     child: Image.asset("imagens/logo.png",width: 200,height: 150,)),
                   Padding(padding: EdgeInsets.only(bottom: 8),
                   child: TextField(
-                    autofocus: true,
+                    autofocus: false,
                     controller: _controllerEmail,
                     keyboardType: TextInputType.emailAddress,
                     style: TextStyle(fontSize: 16),

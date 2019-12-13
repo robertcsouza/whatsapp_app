@@ -26,6 +26,21 @@ class Mensagem{
 
   }
 
+  Map<String,dynamic> toMapUsuario(String iddestinatario){
+
+
+    Map<String,dynamic> map = {
+
+
+      iddestinatario: this.mensagem
+    };
+
+    return map;
+
+  }
+
+
+
 
   DateTime get time => _time;
 
